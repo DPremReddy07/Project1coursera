@@ -1,0 +1,18 @@
+# tests/factories.py
+
+import factory
+from faker import Faker
+from myapp.models import Product  # Adjust the import according to your app's structure
+
+fake = Faker()
+
+class ProductFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Product
+
+    name = factory.LazyAttribute(lambda _: fake.word())
+    description = factory.LazyAttribute(lambda _: fake.text(max_nb_chars=100))
+    price = factory.LazyAttribute(lambda _: round(fake.pydecimal(left_digits=2, right_digits=2, positive=True), 2))
+    stock = factory.LazyAttribute(lambda _: fake.random_int(min=0, max=100))
+
+
